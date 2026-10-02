@@ -1,0 +1,187 @@
+<!-- ////////////////////////////////////////////////////////////////mycode/////////////////////////////////////////////////////////////// -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Effects Application - Task 1.1</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <!--libraries-->
+    <script src="./libraries/p5.js"></script>
+    <script src="./libraries/p5.sound.js"></script>
+    
+    <!--JavaScript files-->
+    <script src="AudioManager.js"></script>
+    <script src="EffectsChain.js"></script>
+    <script src="SpectrumAnalyzer.js"></script>
+    <script src="SoundLibrary.js"></script>
+    <script src="UIController.js"></script>
+    <script src="sketch.js"></script>
+</head>
+<body>
+    <div class="main-container">
+        
+        <!-- prerecorded sounds library -->
+        <div class="sounds-library">
+            <h2>Pre-recorded<br>Sounds Library</h2>
+            <div class="sounds-grid">
+                <button class="sound-btn">Sound 1</button>
+                <button class="sound-btn">Sound 2</button>
+                <button class="sound-btn">Sound 3</button>
+                <button class="sound-btn">Sound 4</button>
+                <button class="sound-btn">Sound 5</button>
+                <button class="sound-btn">Sound 6</button>
+            </div>
+            <div class="ellipsis">...</div>
+            <div class="sound-actions">
+                <button class="action-btn edit-btn">Edit</button>
+                <button class="action-btn delete-btn">Delete</button>
+                <button class="action-btn record-btn">Record New</button>
+            </div>
+            <div class="legend">
+                <span>D:W: Parameter Value</span>
+                <span>OL: Output level</span>
+            </div>
+        </div>
+
+        <div class="right-column">
+            <!--spectrum and controls -->
+            <div class="top-section">
+              <div class="spectrum-box" id="spectrum-in-box">
+                <h3>Spectrum<br>In</h3>
+              </div>
+              <div class="spectrum-box" id="spectrum-out-box">
+                <h3>Spectrum<br>Out</h3>
+              </div>
+            </div>
+
+            <div class="left-side">
+              <div class="playback-controls">
+                  <button class="playback-btn">Play</button>
+                  <button class="playback-btn">Stop</button>
+                  <button class="playback-btn">Loop</button>
+                  <button class="playback-btn">Skip to<br>start</button>
+                  <div class="master-volume-box">
+                    <h3>Master Volume</h3>
+                    <input type="range" class="master-slider" min="0" max="1" value="0.5" step="0.01">
+                </div>
+              </div>
+            </div>
+
+            <!--recording effects panel -->
+            <div class="effects-panel">
+                <h2 class="panel-title">Recording Effects Panel</h2>
+                
+                <div class="effects-grid">
+                    
+                    <!--lowpass filter effect -->
+                    <div class="effect-box">
+                        <h3>Low-pass filter effect</h3>
+                        
+                        <!--parameter buttons-->
+                        <div class="param-buttons">
+                            <button class="param-btn">Cutoff freq</button>
+                            <button class="param-btn">Resonance</button>
+                        </div>
+                        
+                        <!--dw and ol sliders-->
+                        <div class="slider-section">
+                            <div class="slider-row">
+                                <span class="slider-label">DW</span>
+                                <input type="range" min="0" max="1" value="0" step="0.01" class="effect-slider">
+                            </div>
+                            <div class="slider-row">
+                                <span class="slider-label">OL</span>
+                                <input type="range" min="0" max="1" value="1" step="0.01" class="effect-slider">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--waveshaper distortion-->
+                    <div class="effect-box">
+                        <h3>Waveshaper distortion</h3>
+                        
+                        <!--parameter buttons-->
+                        <div class="param-buttons">
+                            <button class="param-btn">Dist. Amount</button>
+                            <button class="param-btn">Oversample</button>
+                        </div>
+                        
+                        <!--dw and ol sliders-->
+                        <div class="slider-section">
+                            <div class="slider-row">
+                                <span class="slider-label">DW</span>
+                                <input type="range" min="0" max="1" value="0" step="0.01" class="effect-slider">
+                            </div>
+                            <div class="slider-row">
+                                <span class="slider-label">OL</span>
+                                <input type="range" min="0" max="1" value="1" step="0.01" class="effect-slider">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--dynamic compressor -->
+                    <div class="effect-box">
+                        <h3>Dynamic compressor</h3>
+                        
+                        <!--parameter buttons-->
+                        <div class="param-buttons compressor-buttons">
+                            <button class="param-btn">Attack</button>
+                            <button class="param-btn">Ratio</button>
+                            <button class="param-btn">Knee</button>
+                            <button class="param-btn">Threshold</button>
+                            <button class="param-btn">Release</button>
+                        </div>
+                        
+                        <!--dw and ol sliders-->
+                        <div class="slider-section">
+                            <div class="slider-row">
+                                <span class="slider-label">DW</span>
+                                <input type="range" min="0" max="1" value="0" step="0.01" class="effect-slider">
+                            </div>
+                            <div class="slider-row">
+                                <span class="slider-label">OL</span>
+                                <input type="range" min="0" max="1" value="1" step="0.01" class="effect-slider">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--reverb filter effect-->
+                    <div class="effect-box">
+                        <h3>Reverb filter effect</h3>
+                        
+                        <!--parameter buttons-->
+                        <div class="param-buttons">
+                            <button class="param-btn">Duration</button>
+                            <button class="param-btn">Decay Rate</button>
+                            <button class="param-btn toggle-btn">Reverse</button>
+                        </div>
+                        
+                        <!--dw and ol sliders-->
+                        <div class="slider-section">
+                            <div class="slider-row">
+                                <span class="slider-label">DW</span>
+                                <input type="range" min="0" max="1" value="0" step="0.01" class="effect-slider">
+                            </div>
+                            <div class="slider-row">
+                                <span class="slider-label">OL</span>
+                                <input type="range" min="0" max="1" value="1" step="0.01" class="effect-slider">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!--bottom buttons-->
+                <div class="panel-actions">
+                    <button class="panel-action-btn">Clear filters</button>
+                    <button class="panel-action-btn save-btn">Save</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>
+<!-- ////////////////////////////////////////////////////////////////mycode/////////////////////////////////////////////////////////////// -->
